@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Lenders App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body style="background-color:#4DB6AC;">
+<nav class="navbar navbar-light" style="background-color:#FF0033;">
+    <a href="#" class="navbar-brand" style="background-color:#FFCC33;color:#000000;border-width:10px;border-color:#FFCC33;border-style:solid;border-spacing:30px;border-radius: 5px;">Lenders App</a>
+    <a class="navbar-link btn-lg" href="{% url 'lenders:index' %}" style="background-color:#FFCC33;color:#000000;">DataFlair</a>
+    {% if user.is_superuser %}
+    <a href="{% url 'admin:index' %}" class = 'navbar-link btn-lg' style="background-color:#FFCC33;color:#000000;">Admin</a>
+    <a href="{% url 'lenders:upload-lender' %}" class="navbar-link btn-lg" style="background-color:#FFCC33;color:#000000;">Upload Lenders</a>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <p>Welcome {{ user.get_username }}!</p>
+    <a href="{% url 'lenders:logout' %}" class="navbar-link btn-lg" style="background-color:#FFCC33;color:#000000;">Logout</a>
+    {% else %}
+    <a href="{% url 'lenders:login' %}" class="navbar-link btn-lg" style="background-color:#FFCC33;color:#000000;">Login</a>
+    <a href="{% url 'lenders:register' %}" class="navbar-link btn-lg" style="background-color:#FFCC33;color:#000000;">Register</a>
+    {% endif %}
+</nav>
+<br>
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Action</th>
+      <th scope="col">Class Name*</th>
+      <th scope="col">Number of available Installment Plans</th>
+      <th scope="col">Amount (in €)</th>
+      <th scope="col">Duration in months</th>
+    </tr>
+  </thead>
+  <tbody>
+     {% for lender in base %}
+    <tr>
+      <th scope="row">
+          {% if user.is_superuser %}
+          <a href="update/{{lender.id}}" class="btn btn-warning" id = '{{lender.id}}'>edit</a>
+        <a href="delete/{{lender.id}}" class="btn btn-danger" id = '{{lender.id}}'>delete</a>
+        {% else %}
+        <p>Readonly</p>
+        {% endif %}
+       </th>
+      <td>{{ lender.Class }}</td>
+      <td>{{ lender.Installments }}</td>
+      <td>{{lender.Amount}}</td>
+      <td>{{lender.Duration}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
+{% if user.is_authenticated %}
+{% include "lenders/calculate.html" %}
+{% include "lenders/result.html" %}
+{% endif %}
+</body>
+</html>

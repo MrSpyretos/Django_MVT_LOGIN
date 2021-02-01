@@ -1,0 +1,9 @@
+{% extends "lenders/data.html" %}
+
+{%block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="sumbit">Register</button>
+    </form>
+{% endblock %}

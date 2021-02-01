@@ -1,0 +1,10 @@
+<h1>Calculate</h1>
+<form action="calculate/" method="POST">
+    {% csrf_token %}
+
+    Enter Class: <input type="text" name="clas"><br><br>
+    Enter Budget: <input type="text" name="budget"><br><br>
+    Enter Duration: <input type="text" name="duration"><br><br>
+    Enter number of loans: <input type="text" name="loans"><br><br>
+    <input type="submit">
+</form>
