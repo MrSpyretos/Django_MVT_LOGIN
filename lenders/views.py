@@ -17,22 +17,24 @@ def calculate(request):
     loan=int(noloans)
     dura=int(duration)
     bud=int(budget)
-    i=0
+    i=1
     rem=bud-(loan*min)
     while i<=dura:
-        rem=(100*loan)+rem
         if i==dur:
-            res=rem/100
+            rem=rem+(loan*(min/dur))
+            res=rem/(min/dur)
             break
+            return render(request ,"lenders/result.html",{"result":res})
+        rem=rem+(loan*(min/dur))
         i=i+1
-    res=rem/100
-    if (dura < dur):
-        res= " Doesn't meet minimum duartion !"
-        return render(request ,"lenders:result",{"result":res})
+    res=rem/(min/dur)
     if (bud < min):
         res= " Doesn't meet minimum amount !"
-        return render(request ,"lenders:result",{"result":res})
-    return render(request ,"lenders:result",{"result":res})
+        return render(request ,"lenders/result.html",{"result":res})
+    if (bud < min*loan):
+        res= "Not enough budget !"
+        return render(request ,"lenders/result.html",{"result":res})
+    return render(request ,"lenders/result.html",{"result":res})
 
 
 def index(request):
